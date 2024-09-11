@@ -1,3 +1,4 @@
+const sdk = require("@defillama/sdk");
 const { sumTokens2 } = require('../helper/unwrapLPs');
 const { cachedGraphQuery, getConfig } = require("../helper/cache");
 
@@ -12,11 +13,11 @@ const vault = {
 const subgraphs = {
   scroll: 'https://ambindexer.net/scroll-gcgo/pool_list?chainId=0x82750',
   blast: 'https://ambindexer.net/blast-gcgo/pool_list?chainId=0x13e31',
-  canto: "https://canto-subgraph.plexnode.wtf/subgraphs/name/ambient-graph",
-  ethereum: `https://api.thegraph.com/subgraphs/name/crocswap/croc-mainnet`
+  canto: "https://ambient-graphcache.fly.dev/gcgo/pool_list?chainId=0x1e14",
+  ethereum: sdk.graph.modifyEndpoint('DyHaLYK1keqcv3YD3VczKGYvxQGfGgV6bGTbZLMj5xME')
 }
 
-async function tvl(_, _b, _cb, { api, }) {
+async function tvl(api) {
   let pools
   if (subgraphs[api.chain].includes("gcgo")) {
     const data = await getConfig(`ambient-finance/${api.chain}`, subgraphs[api.chain])
